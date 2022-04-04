@@ -1,6 +1,7 @@
 import type { Bot, CreateBotOptions } from "../deps/discord.ts";
 import { Config } from "../util/config.ts";
 import * as Discord from "../deps/discord.ts";
+import * as Oasis from "../deps/oasis.ts";
 
 export interface OasisOptions extends Omit<CreateBotOptions, "events" | "botId" | "token" | "intents"> {
     plugins?: Function[];
@@ -27,13 +28,13 @@ export function createBot(options: OasisOptions) {
         if (temp) {
             // import the files syncronously
             load.map(dir => `${root}/${dir}`)
-                .forEach(Discord.TemporaryFileloader.importDirectory);
+                .forEach(Oasis.TemporaryFileloader.importDirectory);
 
             // create the temp folder and load the files
-            Discord.TemporaryFileloader.fileLoader();
+            Oasis.TemporaryFileloader.fileLoader();
         }
         else {
-            Discord.loadDirs(root, load);
+            Oasis.loadDirs(root, load);
         }
     }
 

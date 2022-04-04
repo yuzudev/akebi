@@ -1,6 +1,6 @@
-import type { Context } from "../../deps/discord.ts";
+import type { Context } from "../../deps/oasis.ts";
 import type { Option } from "../../deps/monads.ts";
-import { Argument, claim } from "../../deps/discord.ts";
+import { Argument, claim } from "../../deps/oasis.ts";
 import { Some, None } from "../../deps/monads.ts";
 
 // define responses

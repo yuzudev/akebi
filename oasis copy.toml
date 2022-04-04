@@ -1,0 +1,7 @@
+[config]
+prefix = "->"
+botId = "id here"
+token = "token here"
+ownerId = "owner id here"
+intents = [ "Guilds", "GuildMessages" ]
+development = true

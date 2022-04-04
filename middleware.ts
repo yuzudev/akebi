@@ -1,5 +1,6 @@
 import type { ApplicationCommandOption, Bot } from "./deps/discord.ts";
 import { ApplicationCommandTypes, Context, commands, commandAliases, upsertApplicationCommands } from "./deps/discord.ts";
+import { Config } from "./util/config.ts";
 
 export function enableMiddleware(bot: Bot): Bot {
     const { interactionCreate, messageCreate, ready } = bot.events;
@@ -11,7 +12,7 @@ export function enableMiddleware(bot: Bot): Bot {
             return;
         }
 
-        const ctx = new Context("!", bot, undefined, interaction);
+        const ctx = new Context(Config.prefix, bot, undefined, interaction);
 
         // get command from cache
         const [command] = commands.get(ctx.commandName.unwrapOr(commandAliases.get(ctx.commandName.unwrapOr("")) ?? "")) ?? [];
@@ -30,7 +31,7 @@ export function enableMiddleware(bot: Bot): Bot {
             messageCreate(bot, message);
             return;
         }
-        const ctx = new Context("!", bot, message, undefined);
+        const ctx = new Context(Config.prefix, bot, message, undefined);
 
         // get command from cache
         const [command] = commands.get(ctx.commandName.unwrapOr(commandAliases.get(ctx.commandName.unwrapOr("")) ?? "")) ?? [];

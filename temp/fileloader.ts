@@ -1,1 +1,0 @@
-import "file:////home/vanilla/Escritorio/Programas/mine/bot-2022/core/commands/8ball.ts#1649084062257";

@@ -44,11 +44,10 @@ export function enableMiddleware(bot: Bot): Bot {
         messageCreate(bot, message);
     };
 
-    bot.events.ready = (bot, payload, rawPayload) => {
-        // TODO: do this for production only
-
-        // register the commands against the api
-        upsertApplicationCommands(bot, commands.map(([command, options]) => {
+    bot.events.ready = async (bot, payload, rawPayload) => {
+        if (Config.development) {
+            // register the commands on one server
+            await upsertApplicationCommands(bot, commands.map(([command, options]) => {
                 return {
                     name: command.data.name,
                     description: command.data.description,
@@ -56,8 +55,19 @@ export function enableMiddleware(bot: Bot): Bot {
                     type: ApplicationCommandTypes.ChatInput,
                     defaultPermission: true,
                 };
-            })
-        );
+            }), BigInt(Config.supportGuildId));
+        } else {
+            // register the commands against the api
+            await upsertApplicationCommands(bot, commands.map(([command, options]) => {
+                return {
+                    name: command.data.name,
+                    description: command.data.description,
+                    options: options as ApplicationCommandOption[],
+                    type: ApplicationCommandTypes.ChatInput,
+                    defaultPermission: true,
+                };
+            }), undefined);
+        }
 
         ready(bot, payload, rawPayload);
     };

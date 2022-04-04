@@ -6,8 +6,10 @@ declare namespace Config {
         prefix: string;
         token: string;
         botId: string;
+        supportGuildId: string;
         logsChannelId: string;
         intents: string[];
+        development: boolean;
     }
 }
 

@@ -1,8 +1,8 @@
 import { enableCachePlugin, enablePermissionsPlugin } from "./deps/discord.ts";
-import { enableMiddleware } from "./util/middleware.ts";
-import { createBot, startBot } from "./util/client.ts";
+import { enableMiddleware } from "./internals/middleware.ts";
+import { createBot, startBot } from "./internals/client.ts";
 
-function main(args: string[]): void {
+function main() {
     const client = createBot({
         plugins: [ enableMiddleware, enableCachePlugin, enablePermissionsPlugin ],
         handler: {
@@ -23,5 +23,5 @@ function main(args: string[]): void {
 }
 
 if (import.meta.main) {
-    main(Deno.args);
+    main();
 }

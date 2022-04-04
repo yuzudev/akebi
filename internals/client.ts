@@ -1,7 +1,7 @@
 import type { Bot, CreateBotOptions } from "../deps/discord.ts";
-import { Config } from "../util/config.ts";
 import * as Discord from "../deps/discord.ts";
 import * as Oasis from "../deps/oasis.ts";
+import Config from "./config.ts";
 
 export interface OasisOptions extends Omit<CreateBotOptions, "events" | "botId" | "token" | "intents"> {
     plugins?: Function[];

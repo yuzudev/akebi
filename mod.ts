@@ -13,8 +13,11 @@ function main(args: string[]): void {
         },
     });
 
-    client.events.ready = (bot, payload) => {
+    const { ready } = client.events
+
+    client.events.ready = (bot, payload, rawPayload) => {
         console.info("Ready! logged as %s with id %d", payload.user.username, bot.id);
+        ready(bot, payload, rawPayload);
     };
 
     startBot(client);

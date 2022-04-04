@@ -1,5 +1,6 @@
 import type { Context } from "../../deps/oasis.ts";
 import type { Option } from "../../deps/monads.ts";
+import type { BotWithCache } from "../../deps/discord.ts";
 import { Argument, claim } from "../../deps/oasis.ts";
 import { Some, None } from "../../deps/monads.ts";
 
@@ -37,12 +38,21 @@ class EightBall {
     }
 
     // run the command
-    async run(ctx: Context) {
+    async run(ctx: Context<BotWithCache>) {
+        // defer the reply
+        const respond = await ctx.defer();
+
         const question = ctx.options.andThen(o => Some(o[0])).unwrap();
         const response = responses[Math.floor(Math.random() * responses.length)];
 
-        // send the response
-        await ctx.respond({ content: `Question: ${question.value} | Reply: ${response}` });
+        if (respond.isSome()) {
+            // send the response to the interaction
+            await respond.unwrap()({ content: `Question: ${question.value} | Reply: ${response}` });
+        }
+        else {
+            // send the message
+            await ctx.respond({ content: `Question: ${question.value} | Reply: ${response}` });
+        }
     }
 }
 

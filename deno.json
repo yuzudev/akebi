@@ -6,7 +6,16 @@
     "velociraptor": {
         "scripts": {
             "dev": "deno run -A --watch mod.ts",
-            "start": "deno run --allow-read --allow-net mod.ts"
+            "start": "deno run --allow-read --allow-net .",
+            "fmt": "deno fmt"
+        }
+    },
+    "fmt": {
+        "options": {
+            "useTabs": false,
+            "indentWidth": 4,
+            "lineWidth": 120,
+            "singleQuote": false
         }
     }
 }

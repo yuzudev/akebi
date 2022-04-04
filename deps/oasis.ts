@@ -1,1 +1,1 @@
-export * from "../../botsito/packages/mod.ts";;
+export * from "../../botsito/packages/mod.ts";

@@ -1,6 +1,6 @@
 import type { ApplicationCommandOption, Bot } from "../deps/discord.ts";
 import { ApplicationCommandTypes, upsertApplicationCommands } from "../deps/discord.ts";
-import { Context, commands, commandAliases }  from "../deps/oasis.ts";
+import { commandAliases, commands, Context } from "../deps/oasis.ts";
 import { Config } from "./config.ts";
 
 export function enableMiddleware(bot: Bot): Bot {
@@ -16,7 +16,8 @@ export function enableMiddleware(bot: Bot): Bot {
         const ctx = new Context(Config.prefix, bot, undefined, interaction);
 
         // get command from cache
-        const [command] = commands.get(ctx.commandName.unwrapOr(commandAliases.get(ctx.commandName.unwrapOr("")) ?? "")) ?? [];
+        const [command] =
+            commands.get(ctx.commandName.unwrapOr(commandAliases.get(ctx.commandName.unwrapOr("")) ?? "")) ?? [];
 
         // check if command exists
         if (command) {
@@ -35,7 +36,8 @@ export function enableMiddleware(bot: Bot): Bot {
         const ctx = new Context(Config.prefix, bot, message, undefined);
 
         // get command from cache
-        const [command] = commands.get(ctx.commandName.unwrapOr(commandAliases.get(ctx.commandName.unwrapOr("")) ?? "")) ?? [];
+        const [command] =
+            commands.get(ctx.commandName.unwrapOr(commandAliases.get(ctx.commandName.unwrapOr("")) ?? "")) ?? [];
 
         // check if command exists
         if (command) {
@@ -49,26 +51,34 @@ export function enableMiddleware(bot: Bot): Bot {
         if (Config.development) {
             console.log("... Sending commands to the API");
             // register the commands on one server
-            await upsertApplicationCommands(bot, commands.map(([command, options]) => {
-                return {
-                    name: command.data.name,
-                    description: command.data.description,
-                    options: options as ApplicationCommandOption[],
-                    type: ApplicationCommandTypes.ChatInput,
-                    defaultPermission: true,
-                };
-            }), BigInt(Config.supportGuildId));
+            await upsertApplicationCommands(
+                bot,
+                commands.map(([command, options]) => {
+                    return {
+                        name: command.data.name,
+                        description: command.data.description,
+                        options: options as ApplicationCommandOption[],
+                        type: ApplicationCommandTypes.ChatInput,
+                        defaultPermission: true,
+                    };
+                }),
+                BigInt(Config.supportGuildId),
+            );
         } else {
             // register the commands against the api
-            await upsertApplicationCommands(bot, commands.map(([command, options]) => {
-                return {
-                    name: command.data.name,
-                    description: command.data.description,
-                    options: options as ApplicationCommandOption[],
-                    type: ApplicationCommandTypes.ChatInput,
-                    defaultPermission: true,
-                };
-            }), undefined);
+            await upsertApplicationCommands(
+                bot,
+                commands.map(([command, options]) => {
+                    return {
+                        name: command.data.name,
+                        description: command.data.description,
+                        options: options as ApplicationCommandOption[],
+                        type: ApplicationCommandTypes.ChatInput,
+                        defaultPermission: true,
+                    };
+                }),
+                undefined,
+            );
         }
 
         ready(bot, payload, rawPayload);

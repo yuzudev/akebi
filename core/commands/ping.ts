@@ -18,4 +18,4 @@ class Ping {
 
 export default Ping;
 
-new Ping;
+new Ping();

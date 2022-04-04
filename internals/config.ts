@@ -14,6 +14,6 @@ declare namespace Config {
 }
 
 export const { config: Config } = Toml.parse(
-    Deno.readTextFileSync("oasis.toml")
-) as unknown as { config: Config.t; };
+    Deno.readTextFileSync("oasis.toml"),
+) as unknown as { config: Config.t };
 export default Config;

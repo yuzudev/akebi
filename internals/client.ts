@@ -27,13 +27,12 @@ export function createBot(options: OasisOptions) {
 
         if (temp) {
             // import the files syncronously
-            load.map(dir => `${root}/${dir}`)
+            load.map((dir) => `${root}/${dir}`)
                 .forEach(Oasis.TemporaryFileloader.importDirectory);
 
             // create the temp folder and load the files
             Oasis.TemporaryFileloader.fileLoader();
-        }
-        else {
+        } else {
             Oasis.loadDirs(root, load);
         }
     }

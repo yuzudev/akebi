@@ -4,7 +4,7 @@ import { createBot, startBot } from "./internals/client.ts";
 
 function main() {
     const client = createBot({
-        plugins: [ enableMiddleware, enableCachePlugin, enablePermissionsPlugin ],
+        plugins: [enableMiddleware, enableCachePlugin, enablePermissionsPlugin],
         handler: {
             root: "core",
             load: ["commands"],
@@ -12,7 +12,7 @@ function main() {
         },
     });
 
-    const { ready } = client.events
+    const { ready } = client.events;
 
     client.events.ready = (bot, payload, rawPayload) => {
         console.info("Ready! logged as %s with id %d", payload.user.username, bot.id);

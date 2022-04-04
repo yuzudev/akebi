@@ -2,7 +2,7 @@ import type { Context } from "../../deps/oasis.ts";
 import type { Option } from "../../deps/monads.ts";
 import type { BotWithCache } from "../../deps/discord.ts";
 import { Argument, claim } from "../../deps/oasis.ts";
-import { Some, None } from "../../deps/monads.ts";
+import { None, Some } from "../../deps/monads.ts";
 
 // define responses
 const responses = [
@@ -41,7 +41,7 @@ class EightBall {
 
     // run the command
     async run(ctx: Context) {
-        const question = ctx.options.andThen(o => Some(o[0])).unwrap();
+        const question = ctx.options.andThen((o) => Some(o[0])).unwrap();
         const response = responses[Math.floor(Math.random() * responses.length)];
 
         // send the message
@@ -53,4 +53,4 @@ class EightBall {
 export default EightBall;
 
 // add the command to cache because of calling claim() earlier
-new EightBall;
+new EightBall();

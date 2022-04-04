@@ -38,21 +38,12 @@ class EightBall {
     }
 
     // run the command
-    async run(ctx: Context<BotWithCache>) {
-        // defer the reply
-        const respond = await ctx.defer();
-
+    async run(ctx: Context) {
         const question = ctx.options.andThen(o => Some(o[0])).unwrap();
         const response = responses[Math.floor(Math.random() * responses.length)];
 
-        if (respond.isSome()) {
-            // send the response to the interaction
-            await respond.unwrap()({ content: `Question: ${question.value} | Reply: ${response}` });
-        }
-        else {
-            // send the message
-            await ctx.respond({ content: `Question: ${question.value} | Reply: ${response}` });
-        }
+        // send the message
+        await ctx.respond({ content: `Question: ${question.value} | Reply: ${response}` });
     }
 }
 

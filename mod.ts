@@ -17,7 +17,7 @@ function main(args: string[]): void {
             temp: true, // create a temporary file
         },
         botId: BigInt(args[1]),
-        token: args[0],
+        token: String(args[0]),
     });
 
     client.events.ready = (bot, payload) => {

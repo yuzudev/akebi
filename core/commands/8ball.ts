@@ -1,4 +1,8 @@
-import { Command, Context, Argument, Alias } from "../../deps/discord.ts";
+import {
+    Context,
+    Argument,
+    claim,
+} from "../../deps/discord.ts";
 
 // define responses
 const responses = [
@@ -12,10 +16,8 @@ const responses = [
     "Yes",
 ];
 
-@Alias([ "ball" ])
-class EightBall extends Command {
-    // define data as static so Alias() can be used
-    public static readonly data = {
+class EightBall {
+    public readonly data = {
         name: `${responses.length}ball`,
         description: "Ask the magic 8ball a question",
     };
@@ -31,13 +33,14 @@ class EightBall extends Command {
 
     // claim the command on instantiation
     public constructor() {
-        super();
         // make sure to call options so it does emit meta data
-        Command.claim(this, this.options);
+        claim(this, this.options);
     }
 
     // run the command
     public async run(ctx: Context) {
+        console.log(ctx);
+
         const question = ctx.options.unwrap()[0]
         const response = EightBall.rand(responses);
 

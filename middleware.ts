@@ -30,7 +30,6 @@ export function enableMiddleware(bot: Bot): Bot {
             messageCreate(bot, message);
             return;
         }
-
         const ctx = new Context("!", bot, message, undefined);
 
         // get command from cache

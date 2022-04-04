@@ -1,5 +1,6 @@
 import type { ApplicationCommandOption, Bot } from "./deps/discord.ts";
-import { ApplicationCommandTypes, Context, commands, commandAliases, upsertApplicationCommands } from "./deps/discord.ts";
+import { ApplicationCommandTypes, upsertApplicationCommands } from "./deps/discord.ts";
+import { Context, commands, commandAliases }  from "./deps/oasis.ts";
 import { Config } from "./util/config.ts";
 
 export function enableMiddleware(bot: Bot): Bot {

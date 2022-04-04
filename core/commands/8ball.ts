@@ -22,6 +22,8 @@ class EightBall {
         description: "Ask the magic 8ball a question",
     };
 
+    readonly aliases = ["ball"];
+
     // declare string option 'question' as required
     @Argument("The question", true)
     declare question: string;
@@ -34,7 +36,7 @@ class EightBall {
     // add the command to cache (claim) on instantiation
     constructor() {
         // make sure to call options so it does emit meta data
-        claim(this, this.options);
+        claim(this, this.options, this.aliases);
     }
 
     // run the command

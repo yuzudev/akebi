@@ -1,8 +1,7 @@
-import {
-    Context,
-    Argument,
-    claim,
-} from "../../deps/discord.ts";
+import type { Context } from "../../deps/discord.ts";
+import type { Option } from "../../deps/monads.ts";
+import { Argument, claim } from "../../deps/discord.ts";
+import { Some, None } from "../../deps/monads.ts";
 
 // define responses
 const responses = [
@@ -17,12 +16,12 @@ const responses = [
 ];
 
 class EightBall {
-    public readonly data = {
+    readonly data = {
         name: `${responses.length}ball`,
         description: "Ask the magic 8ball a question",
     };
 
-    // declare string option as required
+    // declare string option 'question' as required
     @Argument("The question", true)
     declare question: string;
 
@@ -31,28 +30,24 @@ class EightBall {
         return [this.question];
     }
 
-    // claim the command on instantiation
-    public constructor() {
+    // add the command to cache (claim) on instantiation
+    constructor() {
         // make sure to call options so it does emit meta data
         claim(this, this.options);
     }
 
     // run the command
-    public async run(ctx: Context) {
-        console.log(ctx);
-
-        const question = ctx.options.unwrap()[0]
-        const response = EightBall.rand(responses);
+    async run(ctx: Context) {
+        const question = ctx.options.andThen(o => Some(o[0])).unwrap();
+        const response = responses[Math.floor(Math.random() * responses.length)];
 
         // send the response
-        await ctx.respond({ content: `Question: ${question?.value} | Reply: ${response}` });
-    }
-
-    // utilities
-    public static rand<T>(arr: T[]) {
-        return arr[Math.floor(Math.random() * arr.length)];
+        await ctx.respond({ content: `Question: ${question.value} | Reply: ${response}` });
     }
 }
 
-// add the command to cache
+// useful for other kinds of handlers
+export default EightBall;
+
+// add the command to cache because of calling claim() earlier
 new EightBall;

@@ -2,7 +2,7 @@ import type { Bot, CreateBotOptions } from "../deps/discord.ts";
 import { Config } from "../util/config.ts";
 import * as Discord from "../deps/discord.ts";
 
-export interface OasisOptions extends Omit<CreateBotOptions, "events" | "botId" | "token"> {
+export interface OasisOptions extends Omit<CreateBotOptions, "events" | "botId" | "token" | "intents"> {
     plugins?: Function[];
     events?: CreateBotOptions["events"];
     handler?: {
@@ -39,7 +39,7 @@ export function createBot(options: OasisOptions) {
 
     // use the middlewares
     const bot = Discord.createBot({
-        intents: options.intents,
+        intents: Config.intents as Array<keyof typeof Discord.GatewayIntents>,
         botId: BigInt(Config.botId),
         token: Config.token,
         events: options.events ?? {},

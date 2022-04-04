@@ -4,7 +4,6 @@ import { createBot, startBot } from "./util/client.ts";
 
 function main(args: string[]): void {
     const client = createBot({
-        intents: [ "Guilds", "GuildMessages" ],
         plugins: [ enableMiddleware, enableCachePlugin, enablePermissionsPlugin ],
         handler: {
             root: "core",

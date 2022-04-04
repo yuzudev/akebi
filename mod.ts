@@ -1,5 +1,5 @@
 import { enableCachePlugin, enablePermissionsPlugin } from "./deps/discord.ts";
-import { enableMiddleware } from "./middleware.ts";
+import { enableMiddleware } from "./util/middleware.ts";
 import { createBot, startBot } from "./util/client.ts";
 
 function main(args: string[]): void {

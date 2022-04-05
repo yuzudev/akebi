@@ -41,7 +41,7 @@ class EightBall {
 
     // run the command
     async run(ctx: Context) {
-        const question = ctx.options.andThen((o) => Some(o[0])).unwrap();
+        const question = ctx.options.unwrap()[0]!;
         const response = responses[Math.floor(Math.random() * responses.length)];
 
         // send the message

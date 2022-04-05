@@ -15,7 +15,7 @@
             "useTabs": false,
             "indentWidth": 4,
             "lineWidth": 120,
-            "singleQuote": false
+            "singleQuote": true
         }
     }
 }

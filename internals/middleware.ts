@@ -1,7 +1,7 @@
-import type { ApplicationCommandOption, Bot } from "../deps/discord.ts";
-import { ApplicationCommandTypes, upsertApplicationCommands } from "../deps/discord.ts";
-import { commandAliases, commands, Context } from "../deps/oasis.ts";
-import { Config } from "./config.ts";
+import type { ApplicationCommandOption, Bot } from '../deps/discord.ts';
+import { ApplicationCommandTypes, upsertApplicationCommands } from '../deps/discord.ts';
+import { commandAliases, commands, Context } from '../deps/oasis.ts';
+import { Config } from './config.ts';
 
 export function enableMiddleware(bot: Bot): Bot {
     const { interactionCreate, messageCreate, ready } = bot.events;
@@ -17,7 +17,7 @@ export function enableMiddleware(bot: Bot): Bot {
 
         // get command from cache
         const [command] =
-            commands.get(ctx.commandName.unwrapOr(commandAliases.get(ctx.commandName.unwrapOr("")) ?? "")) ?? [];
+            commands.get(ctx.commandName.unwrapOr(commandAliases.get(ctx.commandName.unwrapOr('')) ?? '')) ?? [];
 
         // check if command exists
         if (command) {
@@ -37,7 +37,7 @@ export function enableMiddleware(bot: Bot): Bot {
 
         // get command from cache
         const [command] =
-            commands.get(ctx.commandName.unwrapOr(commandAliases.get(ctx.commandName.unwrapOr("")) ?? "")) ?? [];
+            commands.get(ctx.commandName.unwrapOr(commandAliases.get(ctx.commandName.unwrapOr('')) ?? '')) ?? [];
 
         // check if command exists
         if (command) {
@@ -49,7 +49,7 @@ export function enableMiddleware(bot: Bot): Bot {
 
     bot.events.ready = async (bot, payload, rawPayload) => {
         if (Config.development) {
-            console.log("... Sending commands to the API");
+            console.log('... Sending commands to the API');
             // register the commands on one server
             await upsertApplicationCommands(
                 bot,

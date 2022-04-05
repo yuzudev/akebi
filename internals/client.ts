@@ -1,11 +1,11 @@
-import type { Bot, CreateBotOptions } from "../deps/discord.ts";
-import * as Discord from "../deps/discord.ts";
-import * as Oasis from "../deps/oasis.ts";
-import { Config } from "./config.ts";
+import type { Bot, CreateBotOptions } from '../deps/discord.ts';
+import * as Discord from '../deps/discord.ts';
+import * as Oasis from '../deps/oasis.ts';
+import { Config } from './config.ts';
 
-export interface OasisOptions extends Omit<CreateBotOptions, "events" | "botId" | "token" | "intents"> {
+export interface OasisOptions extends Omit<CreateBotOptions, 'events' | 'botId' | 'token' | 'intents'> {
     plugins?: Function[];
-    events?: CreateBotOptions["events"];
+    events?: CreateBotOptions['events'];
     handler?: {
         root?: string;
         load?: string[];
@@ -18,11 +18,11 @@ export function createBot(options: OasisOptions) {
         const { root, load, temp } = options.handler;
 
         if (!load) {
-            throw new Error("handler.load is required");
+            throw new Error('handler.load is required');
         }
 
         if (!root) {
-            throw new Error("handler.root is required");
+            throw new Error('handler.root is required');
         }
 
         if (temp) {

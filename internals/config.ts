@@ -1,4 +1,4 @@
-import * as Toml from "https://deno.land/std@0.133.0/encoding/toml.ts";
+import * as Toml from 'https://deno.land/std@0.133.0/encoding/toml.ts';
 
 declare namespace Config {
     export interface t {
@@ -14,6 +14,6 @@ declare namespace Config {
 }
 
 export const { config: Config } = Toml.parse(
-    Deno.readTextFileSync("oasis.toml"),
+    Deno.readTextFileSync('oasis.toml'),
 ) as unknown as { config: Config.t };
 export default Config;

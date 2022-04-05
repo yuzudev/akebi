@@ -1,31 +1,31 @@
-import type { Context } from "../../deps/oasis.ts";
-import type { Option } from "../../deps/monads.ts";
-import type { BotWithCache } from "../../deps/discord.ts";
-import { Argument, claim } from "../../deps/oasis.ts";
-import { None, Some } from "../../deps/monads.ts";
+import type { Context } from '../../deps/oasis.ts';
+import type { Option } from '../../deps/monads.ts';
+import type { BotWithCache } from '../../deps/discord.ts';
+import { Argument, claim } from '../../deps/oasis.ts';
+import { None, Some } from '../../deps/monads.ts';
 
 // define responses
 const responses = [
-    "It is certain",
-    "It is decidedly so",
-    "Without a doubt",
-    "Yes, definitely",
-    "You may rely on it",
-    "Most likely",
-    "Outlook good",
-    "Yes",
+    'It is certain',
+    'It is decidedly so',
+    'Without a doubt',
+    'Yes, definitely',
+    'You may rely on it',
+    'Most likely',
+    'Outlook good',
+    'Yes',
 ];
 
 class EightBall {
     readonly data = {
         name: `${responses.length}ball`,
-        description: "Ask the magic 8ball a question",
+        description: 'Ask the magic 8ball a question',
     };
 
-    readonly aliases = ["ball"];
+    readonly aliases = ['ball'];
 
     // declare string option 'question' as required
-    @Argument("The question", true)
+    @Argument('The question', true)
     declare question: string;
 
     // get all options

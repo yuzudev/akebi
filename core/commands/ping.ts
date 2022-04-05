@@ -1,10 +1,10 @@
-import type { Context } from "../../deps/oasis.ts";
-import { claim } from "../../deps/oasis.ts";
+import type { Context } from '../../deps/oasis.ts';
+import { claim } from '../../deps/oasis.ts';
 
 class Ping {
     readonly data = {
-        name: "ping",
-        description: "ping the bot",
+        name: 'ping',
+        description: 'ping the bot',
     };
 
     constructor() {
@@ -12,7 +12,7 @@ class Ping {
     }
 
     async run(ctx: Context) {
-        await ctx.respond({ content: "pong!" });
+        await ctx.respond({ content: 'Pong!' });
     }
 }
 

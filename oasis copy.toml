@@ -1,8 +1,0 @@
-[config]
-prefix = "->"
-botId = "id here"
-token = "token here"
-ownerId = "owner id here"
-intents = [ "Guilds", "GuildMessages" ]
-supportGuildId = "support guild id here"
-development = true

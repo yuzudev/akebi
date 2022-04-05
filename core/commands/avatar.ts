@@ -35,6 +35,7 @@ class Avatar {
 
         if (user.isNone()) {
             await ctx.respondWith('Unkown user');
+            return;
         }
 
         const avatar = ctx.bot.contents.helpers.avatarURL(

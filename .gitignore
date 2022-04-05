@@ -1,3 +1,4 @@
 /temp
 .env
 oasis.toml
+.vscode

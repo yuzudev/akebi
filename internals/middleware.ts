@@ -53,7 +53,7 @@ export function enableMiddleware(bot: Bot): Bot {
             // register the commands on one server
             await upsertApplicationCommands(
                 bot,
-                commands.map(([command, options]) => {
+                commands.filter(([c]) => c.data.name !== "ping").map(([command, options]) => {
                     return {
                         name: command.data.name,
                         description: command.data.description,
@@ -68,7 +68,7 @@ export function enableMiddleware(bot: Bot): Bot {
             // register the commands against the api
             await upsertApplicationCommands(
                 bot,
-                commands.map(([command, options]) => {
+                commands.filter(([c]) => c.data.name !== "ping").map(([command, options]) => {
                     return {
                         name: command.data.name,
                         description: command.data.description,

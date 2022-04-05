@@ -15,7 +15,7 @@ class Ping {
         return Util.snowflakeToTimestamp(
             ctx.interactionContext.isSome()
                 ? ctx.interactionContext.unwrap().interaction.id
-                : ctx.messageContext.unwrap().message.id
+                : ctx.messageContext.unwrap().message.id,
         ) - Date.now();
     }
 

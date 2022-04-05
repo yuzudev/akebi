@@ -1,6 +1,5 @@
-import { InteractionResponseTypes } from '../../deps/discord.ts';
 import type { Context } from '../../deps/oasis.ts';
-import { claim } from '../../deps/oasis.ts';
+import { claim, Util } from '../../deps/oasis.ts';
 
 class Ping {
     readonly data = {
@@ -12,24 +11,15 @@ class Ping {
         claim(this);
     }
 
+    private getPingFromContext(ctx: Context) {
+        return Util.snowflakeToTimestamp(ctx.interaction ? ctx.interaction.id : ctx.message?.id!) - Date.now();
+    }
+
     async run(ctx: Context) {
-        const ping = snowflakeToTimestamp(ctx.interaction!.id) - Date.now();
-        await ctx.bot.contents.helpers.sendInteractionResponse(
-            ctx.interaction!.id,
-            ctx.interaction!.token,
-            {
-                type: InteractionResponseTypes.ChannelMessageWithSource,
-                data: {
-                    content: `Pong! (${ping}ms)`,
-                },
-            },
-        );
+        const ping = this.getPingFromContext(ctx);
+        await ctx.respondWith(`Pong! (${ping}ms)`);
     }
 }
 export default Ping;
 
 new Ping();
-
-export function snowflakeToTimestamp(id: bigint) {
-    return Number(id / 4194304n + 1420070400000n);
-}

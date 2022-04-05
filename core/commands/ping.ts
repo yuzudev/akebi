@@ -12,7 +12,11 @@ class Ping {
     }
 
     private getPingFromContext(ctx: Context) {
-        return Util.snowflakeToTimestamp(ctx.interaction ? ctx.interaction.id : ctx.message?.id!) - Date.now();
+        return Util.snowflakeToTimestamp(
+            ctx.interactionContext.isSome()
+                ? ctx.interactionContext.unwrap().interaction.id
+                : ctx.messageContext.unwrap().message.id
+        ) - Date.now();
     }
 
     async run(ctx: Context) {

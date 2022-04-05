@@ -26,10 +26,10 @@ class Avatar {
         const user = Some(
             ctx.options.isSome() && ctx.options.unwrap()[0] !== undefined
                 ? ctx.bot.contents.users.get(BigInt(ctx.options.unwrap()[0].value as string))
-                : ctx.message
-                ? ctx.bot.contents.users.get(ctx.message.authorId)
-                : ctx.interaction
-                ? ctx.interaction.user
+                : ctx.messageContext.isSome()
+                ? ctx.bot.contents.users.get(ctx.messageContext.unwrap().message.authorId)
+                : ctx.interactionContext.isSome()
+                ? ctx.interactionContext.unwrap().interaction.user
                 : undefined,
         );
 

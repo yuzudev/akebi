@@ -31,7 +31,16 @@ export function createBot(options: OasisOptions) {
                 .forEach(Oasis.TemporaryFileloader.importDirectory);
 
             // create the temp folder and load the files
-            Oasis.TemporaryFileloader.fileLoader();
+            Oasis.TemporaryFileloader.fileLoader()
+                .then(() => {
+                    Deno.addSignalListener("SIGINT", () => {
+                        Deno.removeSync('./temp', { recursive: true });
+                        Deno.exit(0);
+                    });
+                })
+                .catch(() => {
+                    Deno.exit(1);
+                });
         } else {
             Oasis.loadDirs(root, load);
         }

@@ -1,5 +1,5 @@
 import type { Context } from '../../deps/oasis.ts';
-import type { BotWithCache, InteractionDataOption } from '../../deps/discord.ts';
+import type { BotWithCache } from '../../deps/discord.ts';
 import { Argument, claim } from '../../deps/oasis.ts';
 import { None, type Option, Some } from '../../deps/monads.ts';
 
@@ -39,7 +39,7 @@ class Avatar {
         }
 
         const avatar = ctx.bot.contents.helpers.avatarURL(
-            ctx.userId.unwrap(),
+            user.unwrap().id,
             user.unwrap().discriminator,
             {
                 size: 2048,
@@ -50,6 +50,7 @@ class Avatar {
         await ctx.respondWith(avatar);
     }
 }
+
 export default Avatar;
 
 new Avatar();

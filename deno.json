@@ -8,7 +8,7 @@
             "dev": "deno run -A --watch mod.ts",
             "start": "deno run --allow-read --allow-net .",
             "fmt": "deno fmt",
-            "update": "deno cache --reload https://raw.githubusercontent.com/yuzudev/yuzu-bot-rebuild/main/packages/mod.ts"
+            "reload": "deno cache --reload ./mod.ts"
         }
     },
     "fmt": {

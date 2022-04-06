@@ -1,7 +1,7 @@
 import type { ApplicationCommandOption, Bot } from '../deps/discord.ts';
 import { ApplicationCommandTypes, upsertApplicationCommands } from '../deps/discord.ts';
 import { commandAliases, commands, Context } from '../deps/oasis.ts';
-import { Config } from './config.ts';
+import { config } from './config.ts';
 
 export function enableMiddleware(bot: Bot): Bot {
     const { interactionCreate, messageCreate, ready } = bot.events;
@@ -13,7 +13,7 @@ export function enableMiddleware(bot: Bot): Bot {
             return;
         }
 
-        const ctx = new Context(Config.prefix, bot, undefined, interaction);
+        const ctx = new Context(config.prefix, bot, undefined, interaction);
 
         // get command from cache
         const [command] =
@@ -33,7 +33,7 @@ export function enableMiddleware(bot: Bot): Bot {
             messageCreate(bot, message);
             return;
         }
-        const ctx = new Context(Config.prefix, bot, message, undefined);
+        const ctx = new Context(config.prefix, bot, message, undefined);
 
         // get command from cache
         const [command] =
@@ -48,7 +48,7 @@ export function enableMiddleware(bot: Bot): Bot {
     };
 
     bot.events.ready = async (bot, payload, rawPayload) => {
-        if (Config.development) {
+        if (config.development) {
             console.log('... Sending commands to the API');
             // register the commands on one server
             await upsertApplicationCommands(
@@ -62,7 +62,7 @@ export function enableMiddleware(bot: Bot): Bot {
                         defaultPermission: true,
                     };
                 }),
-                BigInt(Config.supportGuildId),
+                BigInt(config.supportGuildId),
             );
         } else {
             // register the commands against the api

@@ -5,8 +5,8 @@
     },
     "velociraptor": {
         "scripts": {
-            "dev": "deno run -A --watch mod.ts",
-            "start": "deno run --allow-read --allow-net .",
+            "dev": "deno run -A --watch --config deno.json mod.ts",
+            "start": "deno run --allow-read --allow-net --config deno.json --no-check mod.ts",
             "fmt": "deno fmt",
             "reload": "deno cache --reload ./mod.ts"
         }

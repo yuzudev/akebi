@@ -1,25 +1,23 @@
 import { enableCachePlugin, enablePermissionsPlugin } from './deps/discord.ts';
 import { enableMiddleware } from './internals/middleware.ts';
-import { createBot, startBot } from './internals/client.ts';
+import { Client } from './internals/client.ts';
 
 function main() {
-    const client = createBot({
-        plugins: [enableMiddleware, enableCachePlugin, enablePermissionsPlugin],
-        handler: {
-            root: 'core',
-            load: ['commands'],
-            temp: true, // create a temporary file
-        },
-    });
+    const client = new Client();
 
-    const { ready } = client.events;
+    client
+        .use(enableMiddleware)
+        .use(enableCachePlugin)
+        .use(enablePermissionsPlugin);
 
-    client.events.ready = (bot, payload, rawPayload) => {
+    const { ready } = client.bot.events;
+
+    client.bot.events.ready = (bot, payload, rawPayload) => {
         console.info('Ready! logged as %s with id %d', payload.user.username, bot.id);
         ready(bot, payload, rawPayload);
     };
 
-    startBot(client);
+    client.start();
 }
 
 if (import.meta.main) {

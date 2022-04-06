@@ -1,62 +1,64 @@
-import type { Bot, CreateBotOptions } from '../deps/discord.ts';
+import type { Bot } from '../deps/discord.ts';
 import * as Discord from '../deps/discord.ts';
 import * as Oasis from '../deps/oasis.ts';
-import { Config } from './config.ts';
+import { config, handler } from './config.ts';
 
-export interface OasisOptions extends Omit<CreateBotOptions, 'events' | 'botId' | 'token' | 'intents'> {
-    plugins?: Function[];
-    events?: CreateBotOptions['events'];
-    handler?: {
-        root?: string;
-        load?: string[];
-        temp?: boolean;
-    };
-}
+export type BotFn<A extends Bot, B extends Bot> = (bot: A) => B
 
-export function createBot(options: OasisOptions) {
-    if (options.handler) {
-        const { root, load, temp } = options.handler;
+export class Client {
+    public bot: Bot;
+    public constructor() {
+        if (handler) {
+            const { rootDirectory, loadDirectories, temporaryFile } = handler;
 
-        if (!load) {
-            throw new Error('handler.load is required');
-        }
+            if (!loadDirectories) {
+                throw new Error('handler.load is required');
+            }
 
-        if (!root) {
-            throw new Error('handler.root is required');
-        }
+            if (!rootDirectory) {
+                throw new Error('handler.root is required');
+            }
 
-        if (temp) {
-            // import the files syncronously
-            load.map((dir) => `${root}/${dir}`)
-                .forEach(Oasis.TemporaryFileloader.importDirectory);
+            if (temporaryFile) {
+                // import the files syncronously
+                loadDirectories
+                    .map((dir) => `${rootDirectory}/${dir}`)
+                    .forEach(Oasis.TemporaryFileloader.importDirectory);
 
-            // create the temp folder and load the files
-            Oasis.TemporaryFileloader.fileLoader()
-                .then(() => {
-                    Deno.addSignalListener("SIGINT", () => {
-                        Deno.removeSync('./temp', { recursive: true });
-                        Deno.exit(0);
+                // create the temp folder and load the files
+                Oasis.TemporaryFileloader.fileLoader()
+                    .then(() => {
+                        Deno.addSignalListener("SIGINT", () => {
+                            Deno.removeSync('./temp', { recursive: true });
+                            Deno.exit(0);
+                        });
+                    })
+                    .catch(() => {
+                        Deno.exit(1);
                     });
-                })
-                .catch(() => {
-                    Deno.exit(1);
-                });
-        } else {
-            Oasis.loadDirs(root, load);
+            } else {
+                Oasis.loadDirs(rootDirectory, loadDirectories);
+            }
         }
+
+        // use the middlewares
+        const bot = Discord.createBot({
+            intents: config.intents as Array<keyof typeof Discord.GatewayIntents>,
+            botId: BigInt(config.botId),
+            token: config.token,
+            events: {},
+        });
+
+        this.bot = bot;
     }
 
-    // use the middlewares
-    const bot = Discord.createBot({
-        intents: Config.intents as Array<keyof typeof Discord.GatewayIntents>,
-        botId: BigInt(Config.botId),
-        token: Config.token,
-        events: options.events ?? {},
-    });
+    public use<A extends Bot, B extends Bot>(botFn: BotFn<A, B>) {
+        this.bot = botFn(this.bot as A);
 
-    return options.plugins?.reduce((bot, plugin) => plugin(bot), bot) ?? bot;
-}
+        return this;
+    }
 
-export function startBot(bot: Bot) {
-    return Discord.startBot(bot);
+    public start(): Promise<void> {
+        return Discord.startBot(this.bot);
+    }
 }

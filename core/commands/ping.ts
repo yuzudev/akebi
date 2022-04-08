@@ -12,18 +12,15 @@ class Ping {
     }
 
     private getPingFromContext(ctx: Context) {
-        return Util.snowflakeToTimestamp(
-            ctx.interactionContext.isSome()
-                ? ctx.interactionContext.unwrap().interaction.id
-                : ctx.messageContext.unwrap().message.id,
-        ) - Date.now();
+        return Util.snowflakeToTimestamp(ctx.interactionContext?.interaction.id ?? ctx.messageContext!.message.id);
     }
 
     async run(ctx: Context) {
         const ping = this.getPingFromContext(ctx);
-        await ctx.respondWith(`Pong! (${ping}ms)`);
+        await ctx.respondWith(`Pong! (${Date.now() - ping}ms)`);
     }
 }
+
 export default Ping;
 
 new Ping();

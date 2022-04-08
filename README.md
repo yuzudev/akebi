@@ -1,9 +1,9 @@
 # akebi
 
-A lightweight Discord Bot
-=========================
+# A lightweight Discord Bot
 
 ## example
+
 ```toml
 # oasis.toml
 

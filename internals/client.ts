@@ -3,7 +3,7 @@ import * as Discord from '../deps/discord.ts';
 import * as Oasis from '../deps/oasis.ts';
 import { config, handler } from './config.ts';
 
-export type BotFn<A extends Bot, B extends Bot> = (bot: A) => B
+export type BotFn<A extends Bot, B extends Bot> = (bot: A) => B;
 
 export class Client {
     public bot: Bot;
@@ -28,7 +28,7 @@ export class Client {
                 // create the temp folder and load the files
                 Oasis.TemporaryFileloader.fileLoader()
                     .then(() => {
-                        Deno.addSignalListener("SIGINT", () => {
+                        Deno.addSignalListener('SIGINT', () => {
                             Deno.removeSync('./temp', { recursive: true });
                             Deno.exit(0);
                         });

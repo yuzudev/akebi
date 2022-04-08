@@ -1,8 +1,5 @@
 import type { Context } from '../../deps/oasis.ts';
-import type { Option } from '../../deps/monads.ts';
-import type { BotWithCache } from '../../deps/discord.ts';
 import { Argument, claim } from '../../deps/oasis.ts';
-import { None, Some } from '../../deps/monads.ts';
 
 // define responses
 const responses = [
@@ -41,7 +38,7 @@ class EightBall {
 
     // run the command
     async run(ctx: Context) {
-        const question = ctx.options.unwrap()[0]!;
+        const question = ctx.options?.[0]!;
         const response = responses[Math.floor(Math.random() * responses.length)];
 
         // send the message

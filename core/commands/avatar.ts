@@ -1,7 +1,6 @@
 import type { Context } from '../../deps/oasis.ts';
 import type { BotWithCache } from '../../deps/discord.ts';
 import { Argument, claim } from '../../deps/oasis.ts';
-import { None, type Option, Some } from '../../deps/monads.ts';
 
 class Avatar {
     readonly data = {
@@ -23,27 +22,25 @@ class Avatar {
     }
 
     async run(ctx: Context<BotWithCache>) {
-        const user = Some(
-            ctx.options.isSome() && ctx.options.unwrap()[0] !== undefined
-                ? ctx.bot.contents.users.get(BigInt(ctx.options.unwrap()[0].value as string))
-                : ctx.messageContext.isSome()
-                ? ctx.bot.contents.users.get(ctx.messageContext.unwrap().message.authorId)
-                : ctx.interactionContext.isSome()
-                ? ctx.interactionContext.unwrap().interaction.user
-                : undefined,
-        );
+        const user = ctx.options?.[0]
+            ? ctx.bot.users.get(BigInt(ctx.options?.[0].value as string))
+            : ctx.messageContext
+            ? ctx.bot.users.get(ctx.messageContext.message.authorId)
+            : ctx.interactionContext
+            ? ctx.interactionContext.interaction.user
+            : undefined;
 
-        if (user.isNone()) {
+        if (!user) {
             await ctx.respondWith('Unkown user');
             return;
         }
 
-        const avatar = ctx.bot.contents.helpers.avatarURL(
-            user.unwrap().id,
-            user.unwrap().discriminator,
+        const avatar = ctx.bot.helpers.avatarURL(
+            user.id,
+            user.discriminator,
             {
                 size: 2048,
-                avatar: user.unwrap().avatar,
+                avatar: user.avatar,
             },
         );
 

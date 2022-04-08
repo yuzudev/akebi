@@ -1,7 +1,7 @@
-import * as Toml from 'https://deno.land/std@0.133.0/encoding/toml.ts';
+import { parse } from '../deps/toml.ts';
 
 export declare namespace OasisConfig {
-    export interface t {
+    export interface t extends Record<string, unknown> {
         config: {
             ownerId: string;
             prefix: string;
@@ -20,4 +20,4 @@ export declare namespace OasisConfig {
     }
 }
 
-export const { config, handler } = Toml.parse(Deno.readTextFileSync('oasis.toml')) as unknown as OasisConfig.t;
+export const { config, handler } = parse(Deno.readTextFileSync('oasis.toml')) as OasisConfig.t;

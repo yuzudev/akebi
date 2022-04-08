@@ -16,8 +16,7 @@ export function enableMiddleware(bot: Bot): Bot {
         const ctx = new Context(config.prefix, bot, undefined, interaction);
 
         // get command from cache
-        const [command] =
-            commands.get(ctx.commandName.unwrapOr(commandAliases.get(ctx.commandName.unwrapOr('')) ?? '')) ?? [];
+        const [command] = commands.get(ctx.commandName ?? '') ?? [];
 
         // check if command exists
         if (command) {
@@ -36,8 +35,7 @@ export function enableMiddleware(bot: Bot): Bot {
         const ctx = new Context(config.prefix, bot, message, undefined);
 
         // get command from cache
-        const [command] =
-            commands.get(ctx.commandName.unwrapOr(commandAliases.get(ctx.commandName.unwrapOr('')) ?? '')) ?? [];
+        const [command] = commands.get(ctx.commandName ?? commandAliases.get(ctx.commandName || '') ?? '') ?? [];
 
         // check if command exists
         if (command) {

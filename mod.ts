@@ -1,4 +1,4 @@
-import { enableCachePlugin, enablePermissionsPlugin } from './deps/discord.ts';
+import { BitwisePermissionFlags, enableCachePlugin, enablePermissionsPlugin } from './deps/discord.ts';
 import { enableMiddleware } from './internals/middleware.ts';
 import { Client } from './internals/client.ts';
 
@@ -14,6 +14,7 @@ function main() {
 
     client.bot.events.ready = (bot, payload, rawPayload) => {
         console.info('Ready! logged as %s with id %d', payload.user.username, bot.id);
+        console.info(inviteUrl(bot.id, BitwisePermissionFlags.ADMINISTRATOR));
         ready(bot, payload, rawPayload);
     };
 
@@ -23,3 +24,7 @@ function main() {
 if (import.meta.main) {
     main();
 }
+
+const inviteUrl = (botId: bigint, perms: number): string => (
+    `https://discord.com/oauth2/authorize?client_id=${botId}&scope=bot application.commands&permissions=${perms}`
+);

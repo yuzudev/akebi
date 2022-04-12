@@ -14,14 +14,14 @@ class Ping {
     private getPingFromContext(ctx: Context) {
         return Util.snowflakeToTimestamp(
             ctx.interactionContext?.interaction.id ??
-                ctx.messageContext?.message.id ??
-                0n,
+            ctx.messageContext?.message.id ??
+            0n,
         );
     }
 
     async run(ctx: Context) {
-        const ping = this.getPingFromContext(ctx);
-        await ctx.respondWith(`Pong! (${Date.now() - ping}ms)`);
+        const pingTimestamp = this.getPingFromContext(ctx);
+        await ctx.respondWith(`Pong! (${Date.now() - pingTimestamp}ms)`);
     }
 }
 

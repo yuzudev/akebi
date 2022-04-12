@@ -11,7 +11,7 @@ class Avatar {
     readonly aliases = ['pfp', 'avy', 'icon'];
 
     @Argument.User('The user to get the avatar of')
-    declare user: User;
+    declare 'user': User;
 
     private get options(): unknown[] {
         return [this.user];
@@ -22,27 +22,26 @@ class Avatar {
     }
 
     async run(ctx: Context<BotWithCache>) {
-        const user = ctx.options?.[0]
-            ? ctx.bot.users.get(BigInt(ctx.options?.[0].value as string))
-            : ctx.messageContext
-            ? ctx.bot.users.get(ctx.messageContext.message.authorId)
-            : ctx.interactionContext
-            ? ctx.interactionContext.interaction.user
-            : undefined;
+        // deno-fmt ignore
+        const userId = ctx.getUser('user') ??
+                       ctx.getUser(0) ??
+                       ctx.userId;
+
+        if (!userId) {
+            return;
+        }
+
+        const user = ctx.bot.users.get(userId) ?? await ctx.bot.helpers.getUser(userId);
 
         if (!user) {
             await ctx.respondWith('Unkown user');
             return;
         }
 
-        const avatar = ctx.bot.helpers.avatarURL(
-            user.id,
-            user.discriminator,
-            {
-                size: 2048,
-                avatar: user.avatar,
-            },
-        );
+        const avatar = ctx.bot.helpers.avatarURL(user.id, user.discriminator, {
+            size: 2048,
+            avatar: user.avatar,
+        });
 
         await ctx.respondWith(avatar);
     }

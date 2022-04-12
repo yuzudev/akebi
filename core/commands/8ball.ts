@@ -38,11 +38,11 @@ class EightBall {
 
     // run the command
     async run(ctx: Context) {
-        const question = ctx.options?.[0]!;
+        const question = ctx.getString('question', true) ?? ctx.getString(0, true);
         const response = responses[Math.floor(Math.random() * responses.length)];
 
         // send the message
-        await ctx.respond({ content: `Question: ${question.value} | Reply: ${response}` });
+        await ctx.respond({ content: `Question: ${question} | Reply: ${response}` });
     }
 }
 

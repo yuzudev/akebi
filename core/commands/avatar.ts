@@ -22,11 +22,12 @@ class Avatar {
     }
 
     async run(ctx: Context<BotWithCache>) {
-        // deno-fmt ignore
-        const userId =
+        // deno-fmt-ignore
+        const userId = (
             ctx.getUser(0) ??
             ctx.getUser('user') ??
-            ctx.userId;
+            ctx.userId
+        );
 
         if (!userId) {
             return;

@@ -1,5 +1,5 @@
 import type { Context } from '../../deps/oasis.ts';
-import type { BotWithCache } from '../../deps/discord.ts';
+import type { BotWithCache, User } from '../../deps/discord.ts';
 import { Argument, claim } from '../../deps/oasis.ts';
 
 class Avatar {
@@ -11,7 +11,7 @@ class Avatar {
     readonly aliases = ['pfp', 'avy', 'icon'];
 
     @Argument.User('The user to get the avatar of')
-    declare 'user': unknown;
+    declare user: User;
 
     private get options(): unknown[] {
         return [this.user];

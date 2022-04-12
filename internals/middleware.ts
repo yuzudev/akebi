@@ -35,7 +35,8 @@ export function enableMiddleware(bot: Bot): Bot {
         const ctx = new Context(config.prefix, bot, message, undefined);
 
         // get command from cache
-        const [command] = commands.get(ctx.getCommandName() ?? commandAliases.get(ctx.getCommandName() || '') ?? '') ?? [];
+        const [command] = commands.get(ctx.getCommandName() ?? commandAliases.get(ctx.getCommandName() || '') ?? '') ??
+            [];
 
         // check if command exists
         if (command) {

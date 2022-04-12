@@ -17,7 +17,14 @@ export interface t extends Record<string, unknown> {
         rootDirectory?: string;
         loadDirectories?: string[];
         temporaryFile?: boolean;
-    };
+    },
+    database: {
+        user: string,
+        password: string,
+        database: string,
+        hostname: string,
+        port?: number
+    }
 }
 
-export const { config, handler } = <t> parse(Deno.readTextFileSync(PATH));
+export const { config, handler, database } = <t> parse(Deno.readTextFileSync(PATH));

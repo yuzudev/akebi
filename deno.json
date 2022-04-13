@@ -6,7 +6,7 @@
     "velociraptor": {
         "scripts": {
             "dev": "deno run -A --watch --config deno.json mod.ts",
-            "start": "deno cache --reload mod.ts && deno run -A --config deno.json mod.ts",
+            "start": "deno run -A --config deno.json mod.ts",
             "fmt": "deno fmt",
             "reload": "deno cache --reload mod.ts"
         }

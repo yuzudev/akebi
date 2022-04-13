@@ -1,15 +1,12 @@
 import type { Context } from '../../deps/oasis.ts';
-import { claim, Util } from '../../deps/oasis.ts';
+import { Command, Util } from '../../deps/oasis.ts';
 
+@Command
 class Ping {
     readonly data = {
         name: 'ping',
         description: 'ping the bot',
     };
-
-    constructor() {
-        claim(this);
-    }
 
     private getPingFromContext(ctx: Context) {
         return Util.snowflakeToTimestamp(
@@ -26,5 +23,3 @@ class Ping {
 }
 
 export default Ping;
-
-new Ping();

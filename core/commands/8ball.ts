@@ -27,7 +27,7 @@ class EightBall {
     declare question: string;
 
     // get all options
-    public get options(): unknown[] {
+    get options(): unknown[] {
         return [this.question];
     }
 

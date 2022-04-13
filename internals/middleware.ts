@@ -15,8 +15,13 @@ export function enableMiddleware(bot: Bot): Bot {
 
         const ctx = new Context(config.prefix, bot, undefined, interaction);
 
-        // get command from cache
-        const [command] = commands.get(ctx.getCommandName() ?? '') ?? [];
+        const commandName = ctx.getCommandName();
+
+        if (!commandName) {
+            return;
+        }
+
+        const [command] = commands.get(commandName) ?? [];
 
         // check if command exists
         if (command) {
@@ -34,9 +39,14 @@ export function enableMiddleware(bot: Bot): Bot {
         }
         const ctx = new Context(config.prefix, bot, message, undefined);
 
-        // get command from cache
-        const [command] = commands.get(ctx.getCommandName() ?? commandAliases.get(ctx.getCommandName() || '') ?? '') ??
-            [];
+        const commandName = ctx.getCommandName() ?? commandAliases.get(ctx.getCommandName() ?? '');
+
+        if (!commandName) {
+            return;
+        }
+
+        // deno-fmt-ignore
+        const [command] = commands.get(commandName) ?? [];
 
         // check if command exists
         if (command) {

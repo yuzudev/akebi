@@ -48,7 +48,6 @@ export function enableMiddleware(bot: Bot): Bot {
 
     bot.events.ready = async (bot, payload, rawPayload) => {
         if (config.development) {
-            console.log('... Sending commands to the API');
             // register the commands on one server
             await upsertApplicationCommands(
                 bot,

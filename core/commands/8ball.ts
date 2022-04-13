@@ -36,6 +36,10 @@ class EightBall {
         const question = ctx.getString(0) ?? ctx.getString('question', true);
         const response = responses[Math.floor(Math.random() * responses.length)];
 
+        if (!question) {
+            return;
+        }
+
         // send the message
         await ctx.respond({ content: `Question: ${question} | Reply: ${response}` });
     }

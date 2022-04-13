@@ -1,5 +1,4 @@
 import { BitwisePermissionFlags, enableCachePlugin, enablePermissionsPlugin } from './deps/discord.ts';
-import { initDatabase } from './internals/database.ts';
 import { enableMiddleware } from './internals/middleware.ts';
 import { Client } from './internals/client.ts';
 

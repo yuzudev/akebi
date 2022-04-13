@@ -1,5 +1,5 @@
 import type { Context } from '../../deps/oasis.ts';
-import { Argument, claim } from '../../deps/oasis.ts';
+import { Argument, Command } from '../../deps/oasis.ts';
 
 // define responses
 const responses = [
@@ -13,6 +13,7 @@ const responses = [
     'Yes',
 ];
 
+@Command
 class EightBall {
     readonly data = {
         name: `${responses.length}ball`,
@@ -26,14 +27,8 @@ class EightBall {
     declare question: string;
 
     // get all options
-    private get options(): unknown[] {
+    public get options(): unknown[] {
         return [this.question];
-    }
-
-    // add the command to cache (claim) on instantiation
-    constructor() {
-        // make sure to call options so it does emit meta data
-        claim(this, this.options, this.aliases);
     }
 
     // run the command
@@ -50,4 +45,4 @@ class EightBall {
 export default EightBall;
 
 // add the command to cache because of calling claim() earlier
-new EightBall();
+// new EightBall();

@@ -1,7 +1,8 @@
 import type { Context } from '../../deps/oasis.ts';
 import type { BotWithCache, User } from '../../deps/discord.ts';
-import { Argument, claim } from '../../deps/oasis.ts';
+import { Argument, Command } from '../../deps/oasis.ts';
 
+@Command
 class Avatar {
     readonly data = {
         name: 'avatar',
@@ -13,12 +14,8 @@ class Avatar {
     @Argument.User('The user to get the avatar of')
     declare user: User;
 
-    private get options(): unknown[] {
+    get options(): unknown[] {
         return [this.user];
-    }
-
-    constructor() {
-        claim(this, this.options, this.aliases);
     }
 
     async run(ctx: Context<BotWithCache>) {
@@ -50,5 +47,3 @@ class Avatar {
 }
 
 export default Avatar;
-
-new Avatar();

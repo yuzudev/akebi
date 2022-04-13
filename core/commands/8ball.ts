@@ -43,6 +43,3 @@ class EightBall {
 
 // useful for other kinds of handlers
 export default EightBall;
-
-// add the command to cache because of calling claim() earlier
-// new EightBall();

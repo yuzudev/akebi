@@ -39,14 +39,14 @@ export function enableMiddleware(bot: Bot): Bot {
         }
         const ctx = new Context(config.prefix, bot, message, undefined);
 
-        const commandName = ctx.getCommandName() ?? commandAliases.get(ctx.getCommandName() ?? '');
+        const commandName = ctx.getCommandName();
 
         if (!commandName) {
             return;
         }
 
         // deno-fmt-ignore
-        const [command] = commands.get(commandName) ?? [];
+        const [command] = commands.get(commandName) ?? commands.get(commandAliases.get(commandName) ?? '') ?? [];
 
         // check if command exists
         if (command) {

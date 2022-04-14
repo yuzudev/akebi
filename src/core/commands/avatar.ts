@@ -1,6 +1,7 @@
-import type { Context } from '../../deps/oasis.ts';
-import type { BotWithCache, User } from '../../deps/discord.ts';
-import { Argument, Command } from '../../deps/oasis.ts';
+import type { Context } from 'oasis-framework';
+import type { User } from 'discordeno';
+import type { BotWithCache } from 'discordeno/cache-plugin';
+import { Argument, Command } from 'oasis-framework';
 
 @Command
 export class Avatar {

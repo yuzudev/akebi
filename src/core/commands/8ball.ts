@@ -1,5 +1,5 @@
-import type { Context } from '../../deps/oasis.ts';
-import { Argument, Command } from '../../deps/oasis.ts';
+import type { Context } from 'oasis-framework';
+import { Argument, Command } from 'oasis-framework';
 
 // define responses
 const responses = [

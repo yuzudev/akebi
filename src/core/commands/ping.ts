@@ -1,5 +1,5 @@
-import type { Context } from '../../deps/oasis.ts';
-import { Command, Util } from '../../deps/oasis.ts';
+import type { Context } from 'oasis-framework';
+import { Command, Util } from 'oasis-framework';
 
 @Command
 export class Ping {

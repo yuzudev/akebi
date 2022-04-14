@@ -1,8 +1,9 @@
-import { parse } from '../deps/toml.ts';
+import toml from 'toml';
+import fs from 'fs';
 
 export const PATH = 'oasis.toml';
 
-export interface t extends Record<string, unknown> {
+export interface Conf extends Record<string, unknown> {
     config: {
         ownerId: string;
         prefix: string;
@@ -16,7 +17,6 @@ export interface t extends Record<string, unknown> {
     handler: {
         rootDirectory?: string;
         loadDirectories?: string[];
-        temporaryFile?: boolean;
     };
     database: {
         user: string;
@@ -27,4 +27,4 @@ export interface t extends Record<string, unknown> {
     };
 }
 
-export const { config, handler, database } = <t> parse(Deno.readTextFileSync(PATH));
+export const { config, handler, database } = <Conf> toml.parse(fs.readFileSync(PATH, 'utf8'));

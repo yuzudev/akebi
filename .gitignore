@@ -1,4 +1,5 @@
-/temp
-.env
+temp/
 oasis.toml
-.vscode
+packge-lock.json
+node_modules/
+dist/

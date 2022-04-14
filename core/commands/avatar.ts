@@ -3,7 +3,7 @@ import type { BotWithCache, User } from '../../deps/discord.ts';
 import { Argument, Command } from '../../deps/oasis.ts';
 
 @Command
-class Avatar {
+export class Avatar {
     readonly data = {
         name: 'avatar',
         description: 'Get the avatar of a user',
@@ -45,5 +45,3 @@ class Avatar {
         await ctx.respondWith(avatar);
     }
 }
-
-export default Avatar;

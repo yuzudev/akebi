@@ -14,7 +14,7 @@ const responses = [
 ];
 
 @Command
-class EightBall {
+export class EightBall {
     readonly data = {
         name: `${responses.length}ball`,
         description: 'Ask the magic 8ball a question',
@@ -41,9 +41,6 @@ class EightBall {
         }
 
         // send the message
-        await ctx.respond({ content: `Question: ${question} | Reply: ${response}` });
+        await ctx.respondWith(`Question: ${question} | Reply: ${response}`);
     }
 }
-
-// useful for other kinds of handlers
-export default EightBall;

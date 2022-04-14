@@ -13,17 +13,17 @@
   },
   "keywords": [],
   "author": "",
-  "license": "GPL Affaro",
+  "license": "GPL 3.0",
   "bugs": {
     "url": "https://github.com/yuzudev/akebi/issues"
   },
   "homepage": "https://github.com/yuzudev/akebi#readme",
   "dependencies": {
-    "@types/node": "^17.0.23",
     "oasis-framework": "^1.1.0",
     "toml": "^3.0.0"
   },
   "devDependencies": {
+    "@types/node": "^17.0.23",
     "nodemon": "^2.0.15",
     "typescript": "^4.6.3"
   }

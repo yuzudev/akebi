@@ -1,6 +1,7 @@
 import type { Context } from 'oasis-framework';
 import type { BotWithCache } from 'discordeno/cache-plugin';
 import { Argument, Command } from 'oasis-framework';
+import { request as fetch } from 'undici';
 
 /** @private */
 enum SafetyLevels {
@@ -35,6 +36,7 @@ export class Image {
 
     #getToken(keywords: string) {
         return fetch(`${this.#url}?${this.#serializeParams({ q: keywords })}`)
+            .then((r) => r.body)
             .then((r) => r.text())
             .then((r) => r?.match(/vqd=([\d-]+)\&/)?.[1]); // is this legal? idk
     }
@@ -94,6 +96,7 @@ export class Image {
         }
 
         const images = await fetch(this.#url + 'i.js' + '?' + this.#serializeParams(params))
+            .then((r) => r.body)
             .then((r) => r.json())
             .then((r) => r.results as ImageResponse[]);
 

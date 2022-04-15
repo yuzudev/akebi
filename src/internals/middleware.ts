@@ -1,7 +1,7 @@
 import type { ApplicationCommandOption, Bot } from 'discordeno';
 import { ApplicationCommandTypes, upsertApplicationCommands } from 'discordeno';
 import { commandAliases, commands, Context } from 'oasis-framework';
-import { config } from './config';
+import { config } from './config.js';
 
 export function enableMiddleware(bot: Bot): Bot {
     const { interactionCreate, messageCreate, ready } = bot.events;

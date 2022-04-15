@@ -1,4 +1,5 @@
 /**
+  * @license
   * Akebi is a lightweight Discord bot that uses the Oasis framework
   * Copyright (C) 2022 Yuzuru (https://github.com/yuzudev)
   *
@@ -20,8 +21,8 @@
 import { BitwisePermissionFlags } from 'discordeno';
 import { enableCachePlugin } from 'discordeno/cache-plugin';
 import { enablePermissionsPlugin } from 'discordeno/permissions-plugin';
-import { enableMiddleware } from './internals/middleware';
-import { Client } from './internals/client';
+import { enableMiddleware } from './internals/middleware.js';
+import { Client } from './internals/client.js';
 
 // deno-fmt-ignore
 const BASE_PERMISSIONS = 0

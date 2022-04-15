@@ -7,7 +7,15 @@
 		"emitDecoratorMetadata": true,
 		"outDir": "./dist",
 		"rootDir": "./src",
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"importHelpers": true,
+		"allowUnusedLabels": false,
+		"noImplicitOverride": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noUnusedLocals": true,
+		"noUncheckedIndexedAccess": true,
+		"strict": true,
+		"stripInternal": true
 	},
 	"include": ["./src/**/*"]
 }

@@ -30,7 +30,7 @@ export class Image {
 
     #serializeParams(params: Record<string, string>) {
         return Object.keys(params)
-            .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
+            .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]!))
             .join('&');
     }
 
@@ -107,6 +107,6 @@ export class Image {
 
         // phase two
 
-        await ctx.respondWith(images[0].image);
+        await ctx.respondWith(images[0]?.image ?? "No image found");
     }
 }

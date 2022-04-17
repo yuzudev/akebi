@@ -2,7 +2,7 @@ import type { ApplicationCommandOption, Bot } from "discordeno";
 import { ApplicationCommandTypes, upsertApplicationCommands } from "discordeno";
 import { commandAliases, commands, Context } from "oasis-framework";
 import { config } from "./config.js";
-import Prisma from './database.js';
+import Prisma from "./database.js";
 
 export function enableMiddleware(bot: Bot): Bot {
     const { interactionCreate, messageCreate, ready } = bot.events;
@@ -14,12 +14,12 @@ export function enableMiddleware(bot: Bot): Bot {
             return;
         }
 
-        const guild =  await Prisma.guild.findUnique({
+        const guild = await Prisma.guild.findUnique({
             where: {
-                id: interaction.guildId
-            }
-        })
-        
+                id: interaction.guildId,
+            },
+        });
+
         const ctx = new Context(guild?.prefix || "->", bot, undefined, interaction);
 
         const commandName = ctx.getCommandName();
@@ -46,11 +46,11 @@ export function enableMiddleware(bot: Bot): Bot {
             messageCreate(bot, message);
             return;
         }
-        const guild =  await Prisma.guild.findUnique({
+        const guild = await Prisma.guild.findUnique({
             where: {
-                id: message.guildId
-            }
-        })
+                id: message.guildId,
+            },
+        });
 
         const ctx = new Context(guild?.prefix || "->", bot, message, undefined);
         const commandName = ctx.getCommandName();

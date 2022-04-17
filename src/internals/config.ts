@@ -16,7 +16,7 @@ export interface Conf extends Record<string, unknown> {
     handler: {
         rootDirectory?: string;
         loadDirectories?: string[];
-    }
+    };
 }
 
 export const { config, handler, database } = <Conf>toml.parse(fs.readFileSync(PATH, "utf8"));

@@ -1,18 +1,18 @@
-import type { Context } from 'oasis-framework';
-import type { User } from 'discordeno';
-import type { BotWithCache } from 'discordeno/cache-plugin';
-import { Argument, Command } from 'oasis-framework';
+import type { Context } from "oasis-framework";
+import type { User } from "discordeno";
+import type { BotWithCache } from "discordeno/cache-plugin";
+import { Argument, Command } from "oasis-framework";
 
 @Command
 export class Avatar {
     readonly data = {
-        name: 'avatar',
-        description: 'Get the avatar of a user',
+        name: "avatar",
+        description: "Get the avatar of a user",
     };
 
-    readonly aliases = ['pfp', 'avy', 'icon'];
+    readonly aliases = ["pfp", "avy", "icon"];
 
-    @Argument.User('The user to get the avatar of')
+    @Argument.User("The user to get the avatar of")
     declare user: User;
 
     get options(): unknown[] {
@@ -20,21 +20,16 @@ export class Avatar {
     }
 
     async run(ctx: Context<BotWithCache>) {
-        // deno-fmt-ignore
-        const userId = (
-            ctx.getUser(0) ??
-            ctx.getUser('user') ??
-            ctx.userId
-        );
+        const userId = ctx.getUser(0) ?? ctx.getUser("user") ?? ctx.userId;
 
         if (!userId) {
             return;
         }
 
-        const user = ctx.bot.users.get(userId) ?? await ctx.bot.helpers.getUser(userId);
+        const user = ctx.bot.users.get(userId) ?? (await ctx.bot.helpers.getUser(userId));
 
         if (!user) {
-            await ctx.respondWith('Unkown user');
+            await ctx.respondWith("Unkown user");
             return;
         }
 

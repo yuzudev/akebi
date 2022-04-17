@@ -1,7 +1,7 @@
-import toml from 'toml';
-import fs from 'fs';
+import toml from "toml";
+import fs from "fs";
 
-export const PATH = 'oasis.toml';
+export const PATH = "oasis.toml";
 
 export interface Conf extends Record<string, unknown> {
     config: {
@@ -27,4 +27,4 @@ export interface Conf extends Record<string, unknown> {
     };
 }
 
-export const { config, handler, database } = <Conf> toml.parse(fs.readFileSync(PATH, 'utf8'));
+export const { config, handler, database } = <Conf>toml.parse(fs.readFileSync(PATH, "utf8"));

@@ -1,7 +1,7 @@
-import type { Context } from 'oasis-framework';
-import type { BotWithCache } from 'discordeno/cache-plugin';
-import { Argument, Command } from 'oasis-framework';
-import { request as fetch } from 'undici';
+import type { Context } from "oasis-framework";
+import type { BotWithCache } from "discordeno/cache-plugin";
+import { Argument, Command } from "oasis-framework";
+import { request as fetch } from "undici";
 
 /** @private */
 enum SafetyLevels {
@@ -13,41 +13,41 @@ enum SafetyLevels {
 @Command
 export class Image {
     readonly data = {
-        name: 'image',
-        description: 'Sends an image to the channel.',
+        name: "image",
+        description: "Sends an image to the channel.",
     };
 
-    readonly aliases = ['img'];
+    readonly aliases = ["img"];
 
-    @Argument('the search query to find', true)
+    @Argument("the search query to find", true)
     declare query: string;
 
     get options(): unknown[] {
         return [this.query];
     }
 
-    readonly #url = 'https://duckduckgo.com/';
+    readonly #url = "https://duckduckgo.com/";
 
     #serializeParams(params: Record<string, string>) {
         return Object.keys(params)
-            .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]!))
-            .join('&');
+            .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(params[key]!))
+            .join("&");
     }
 
     #getToken(keywords: string) {
         return fetch(`${this.#url}?${this.#serializeParams({ q: keywords })}`)
-            .then((r) => r.body)
-            .then((r) => r.text())
-            .then((r) => r?.match(/vqd=([\d-]+)\&/)?.[1]); // is this legal? idk
+            .then(r => r.body)
+            .then(r => r.text())
+            .then(r => r?.match(/vqd=([\d-]+)\&/)?.[1]); // is this legal? idk
     }
 
     async run(ctx: Context<BotWithCache>) {
         // phase one
 
-        const search = ctx.getString(0) ?? ctx.getString('query', true);
+        const search = ctx.getString(0) ?? ctx.getString("query", true);
 
         if (!search) {
-            await ctx.whisper({ content: 'You must provide at least one search term' });
+            await ctx.whisper({ content: "You must provide at least one search term" });
             return;
         }
 
@@ -64,7 +64,8 @@ export class Image {
             return;
         }
 
-        const channel = ctx.bot.channels.get(channelId) ?? await ctx.bot.helpers.getChannel(channelId);
+        const channel =
+            ctx.bot.channels.get(channelId) ?? (await ctx.bot.helpers.getChannel(channelId));
 
         if (!channel) {
             return;
@@ -78,11 +79,11 @@ export class Image {
 
         const params = {
             vqd: token,
-            l: 'us-en',
-            f: ',,,',
+            l: "us-en",
+            f: ",,,",
             q: search,
-            o: 'json',
-            p: safetyLevel[channel.nsfw ? 'true' : 'false'].toString(),
+            o: "json",
+            p: safetyLevel[channel.nsfw ? "true" : "false"].toString(),
         };
 
         interface ImageResponse {
@@ -95,13 +96,13 @@ export class Image {
             source: string;
         }
 
-        const images = await fetch(this.#url + 'i.js' + '?' + this.#serializeParams(params))
-            .then((r) => r.body)
-            .then((r) => r.json())
-            .then((r) => r.results as ImageResponse[]);
+        const images = await fetch(this.#url + "i.js" + "?" + this.#serializeParams(params))
+            .then(r => r.body)
+            .then(r => r.json())
+            .then(r => r.results as ImageResponse[]);
 
         if (images.length === 0) {
-            await ctx.whisper({ content: 'No results found' });
+            await ctx.whisper({ content: "No results found" });
             return;
         }
 

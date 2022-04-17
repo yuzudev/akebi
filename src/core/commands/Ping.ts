@@ -1,18 +1,16 @@
-import type { Context } from 'oasis-framework';
-import { Command, Util } from 'oasis-framework';
+import type { Context } from "oasis-framework";
+import { Command, Util } from "oasis-framework";
 
 @Command
 export class Ping {
     readonly data = {
-        name: 'ping',
-        description: 'ping the bot',
+        name: "ping",
+        description: "ping the bot",
     };
 
     #getPingFromContext(ctx: Context) {
         return Util.snowflakeToTimestamp(
-            ctx.interactionContext?.interaction.id ??
-                ctx.messageContext?.message.id ??
-                0n,
+            ctx.interactionContext?.interaction.id ?? ctx.messageContext?.message.id ?? 0n
         );
     }
 

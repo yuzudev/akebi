@@ -1,7 +1,7 @@
-import type { ApplicationCommandOption, Bot } from 'discordeno';
-import { ApplicationCommandTypes, upsertApplicationCommands } from 'discordeno';
-import { commandAliases, commands, Context } from 'oasis-framework';
-import { config } from './config.js';
+import type { ApplicationCommandOption, Bot } from "discordeno";
+import { ApplicationCommandTypes, upsertApplicationCommands } from "discordeno";
+import { commandAliases, commands, Context } from "oasis-framework";
+import { config } from "./config.js";
 
 export function enableMiddleware(bot: Bot): Bot {
     const { interactionCreate, messageCreate, ready } = bot.events;
@@ -25,7 +25,9 @@ export function enableMiddleware(bot: Bot): Bot {
 
         // check if command exists
         if (command) {
-            command.run(ctx); // do not await
+            command
+                .run(ctx) // do not await
+                .catch(_ => {});
         }
 
         interactionCreate(bot, interaction);
@@ -46,11 +48,14 @@ export function enableMiddleware(bot: Bot): Bot {
         }
 
         // deno-fmt-ignore
-        const [command] = commands.get(commandName) ?? commands.get(commandAliases.get(commandName) ?? '') ?? [];
+        const [command] =
+            commands.get(commandName) ?? commands.get(commandAliases.get(commandName) ?? "") ?? [];
 
         // check if command exists
         if (command) {
-            command.run(ctx); // do not await
+            command
+                .run(ctx) // do not await
+                .catch(_ => {});
         }
 
         messageCreate(bot, message);
@@ -70,7 +75,7 @@ export function enableMiddleware(bot: Bot): Bot {
                         defaultPermission: true,
                     };
                 }),
-                BigInt(config.supportGuildId),
+                BigInt(config.supportGuildId)
             );
         } else {
             // register the commands against the api
@@ -85,7 +90,7 @@ export function enableMiddleware(bot: Bot): Bot {
                         defaultPermission: true,
                     };
                 }),
-                undefined,
+                undefined
             );
         }
 

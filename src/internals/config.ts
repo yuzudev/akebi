@@ -5,6 +5,7 @@ export const PATH = "oasis.toml";
 
 export interface Conf extends Record<string, unknown> {
     config: {
+        prefix: string;
         ownerId: string;
         token: string;
         botId: string;

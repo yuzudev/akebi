@@ -20,8 +20,7 @@ export function enableMiddleware(bot: Bot): Bot {
             },
         });
 
-        const ctx = new Context(guild?.prefix || "->", bot, undefined, interaction);
-
+        const ctx = new Context(guild?.prefix || config.prefix, bot, undefined, interaction);
         const commandName = ctx.getCommandName();
 
         if (!commandName) {
@@ -52,7 +51,7 @@ export function enableMiddleware(bot: Bot): Bot {
             },
         });
 
-        const ctx = new Context(guild?.prefix || "->", bot, message, undefined);
+        const ctx = new Context(guild?.prefix || config.prefix, bot, message, undefined);
         const commandName = ctx.getCommandName();
 
         if (!commandName) {

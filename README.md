@@ -20,10 +20,9 @@ development = true
 rootDirectory = ["core"]
 loadDirectories = ["commands"]
 temporaryFile = true
+```
 
-[database]
-user="postgres"
-password="admin"
-database="postgres"
-hostname="localhost"
+```
+# .env
+DATABASE_URL="postgresql://user:password@host:5432/dbname"
 ```

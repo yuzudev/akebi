@@ -2,18 +2,25 @@ import type { ApplicationCommandOption, Bot } from "discordeno";
 import { ApplicationCommandTypes, upsertApplicationCommands } from "discordeno";
 import { commandAliases, commands, Context } from "oasis-framework";
 import { config } from "./config.js";
+import Prisma from './database.js';
 
 export function enableMiddleware(bot: Bot): Bot {
     const { interactionCreate, messageCreate, ready } = bot.events;
 
-    bot.events.interactionCreate = (bot, interaction) => {
+    bot.events.interactionCreate = async (bot, interaction) => {
         if (interaction.user.toggles.bot) {
             // if is bot forward the event
             interactionCreate(bot, interaction);
             return;
         }
 
-        const ctx = new Context(config.prefix, bot, undefined, interaction);
+        const guild =  await Prisma.guild.findUnique({
+            where: {
+                id: interaction.guildId
+            }
+        })
+        
+        const ctx = new Context(guild?.prefix || "->", bot, undefined, interaction);
 
         const commandName = ctx.getCommandName();
 
@@ -33,14 +40,19 @@ export function enableMiddleware(bot: Bot): Bot {
         interactionCreate(bot, interaction);
     };
 
-    bot.events.messageCreate = (bot, message) => {
+    bot.events.messageCreate = async (bot, message) => {
         if (message.isBot) {
             // if is bot forward the event
             messageCreate(bot, message);
             return;
         }
-        const ctx = new Context(config.prefix, bot, message, undefined);
+        const guild =  await Prisma.guild.findUnique({
+            where: {
+                id: message.guildId
+            }
+        })
 
+        const ctx = new Context(guild?.prefix || "->", bot, message, undefined);
         const commandName = ctx.getCommandName();
 
         if (!commandName) {

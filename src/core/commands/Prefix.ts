@@ -20,7 +20,7 @@ export class Prefix {
     }
 
     async run(ctx: Context<BotWithCache>) {
-        const { prefix } = ctx;
+        const prefix = ctx.getString(0) ?? ctx.getString("prefix");
 
         if (!prefix) {
             await ctx.whisper({ content: "You must provide a prefix" });

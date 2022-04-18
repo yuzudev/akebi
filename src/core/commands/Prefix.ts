@@ -35,12 +35,21 @@ export class Prefix {
         });
 
         if (!prefix && currentGuild != null) {
-            await ctx.whisper({ content: `The current prefix is \`${currentGuild.prefix}\`` });
+            await ctx.respond({ content: `The current prefix is \`${currentGuild.prefix}\`` });
             return;
         }
 
         if (!prefix && currentGuild == null) {
             await ctx.whisper({ content: "You must provide a prefix" });
+            return;
+        }
+
+        if (!prefix) {
+            return;
+        }
+
+        if (prefix.length > 10) {
+            await ctx.whisper({ content: "Prefixes cannot be longer than 10 characters" });
             return;
         }
 

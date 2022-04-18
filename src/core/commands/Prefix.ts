@@ -1,6 +1,7 @@
 import type { Context } from "oasis-framework";
 import type { BotWithCache } from "discordeno/cache-plugin";
 import { Argument, Command } from "oasis-framework";
+import { hasGuildPermissions } from "discordeno/permissions-plugin";
 import Prisma from "../../internals/database.js";
 
 @Command
@@ -22,14 +23,40 @@ export class Prefix {
     async run(ctx: Context<BotWithCache>) {
         const prefix = ctx.getString(0) ?? ctx.getString("prefix");
 
-        if (!prefix) {
+        if (!ctx.guildId) {
+            await ctx.whisper({ content: "You must be in a guild to use this command" });
+            return;
+        }
+
+        const currentGuild = await Prisma.guild.findUnique({
+            where: {
+                id: ctx.guildId,
+            },
+        });
+
+        if (!prefix && currentGuild != null) {
+            await ctx.whisper({ content: `The current prefix is \`${currentGuild.prefix}\`` });
+            return;
+        }
+
+        if (!prefix && currentGuild == null) {
             await ctx.whisper({ content: "You must provide a prefix" });
             return;
         }
 
-        // if not in guild
-        if (!ctx.guildId) {
-            await ctx.whisper({ content: "You must be in a guild to use this command" });
+        if (!ctx.userId) {
+            return;
+        }
+
+        // check user permissions
+        const member = ctx.bot.members.get(BigInt(`${ctx.guildId}${ctx.userId}`)) ?? (await ctx.bot.helpers.getMember(ctx.guildId, ctx.userId));
+
+        if (!member) {
+            return;
+        }
+
+        if (!hasGuildPermissions(ctx.bot, ctx.guildId, member, ["MANAGE_GUILD"])) {
+            await ctx.whisper({ content: "You must have the `MANAGE_GUILD` permission to use this command" });
             return;
         }
 

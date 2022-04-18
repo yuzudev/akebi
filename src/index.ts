@@ -24,6 +24,9 @@ import { enablePermissionsPlugin } from "discordeno/permissions-plugin";
 import { enableMiddleware } from "./internals/middleware.js";
 import { Client } from "./internals/client.js";
 
+// side effects
+import "./internals/database.js";
+
 // prettier-ignore
 const BASE_PERMISSIONS =
       BitwisePermissionFlags.VIEW_CHANNEL

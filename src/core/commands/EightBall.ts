@@ -33,7 +33,7 @@ export class EightBall {
 
     // run the command
     async run(ctx: Context) {
-        const question = ctx.getString(0) ?? ctx.getString("question", true);
+        const question = ctx.getString(0) ?? ctx.getString("question");
         const response = responses[Math.floor(Math.random() * responses.length)];
 
         if (!question) {

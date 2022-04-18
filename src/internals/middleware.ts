@@ -24,6 +24,7 @@ export function enableMiddleware(bot: Bot): Bot {
         const commandName = ctx.getCommandName();
 
         if (!commandName) {
+            interactionCreate(bot, interaction);
             return;
         }
 
@@ -55,6 +56,7 @@ export function enableMiddleware(bot: Bot): Bot {
         const commandName = ctx.getCommandName();
 
         if (!commandName) {
+            messageCreate(bot, message);
             return;
         }
 

@@ -4,7 +4,7 @@ import { commandAliases, commands, Context } from "oasis-framework";
 import { config } from "./config.js";
 import Prisma from "./database.js";
 
-export function enableMiddleware(bot: Bot): Bot {
+export function enableMiddleware(bot: Bot) {
     const { interactionCreate, messageCreate, ready } = bot.events;
 
     bot.events.interactionCreate = async (bot, interaction) => {
@@ -60,9 +60,8 @@ export function enableMiddleware(bot: Bot): Bot {
             return;
         }
 
-        // deno-fmt-ignore
-        const [command] =
-            commands.get(commandName) ?? commands.get(commandAliases.get(commandName) ?? "") ?? [];
+        // prettier-ignore
+        const [command] = commands.get(commandName) ?? commands.get(commandAliases.get(commandName) ?? "") ?? [];
 
         // check if command exists
         if (command) {

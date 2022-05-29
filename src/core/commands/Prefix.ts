@@ -21,10 +21,10 @@ export class Prefix {
     }
 
     async run(ctx: Context<BotWithCache>) {
-        const prefix = ctx.getString(0) ?? ctx.getString("prefix");
+        const prefix = ctx.options.getString(0) ?? ctx.options.getString("prefix");
 
         if (!ctx.guildId) {
-            await ctx.whisper({ content: "You must be in a guild to use this command" });
+            await ctx.respondPrivately({ with: "You must be in a guild to use this command" });
             return;
         }
 
@@ -35,12 +35,12 @@ export class Prefix {
         });
 
         if (!prefix && currentGuild != null) {
-            await ctx.respond({ content: `The current prefix is \`${currentGuild.prefix}\`` });
+            await ctx.respond({ with: `The current prefix is \`${currentGuild.prefix}\`` });
             return;
         }
 
         if (!prefix && currentGuild == null) {
-            await ctx.whisper({ content: "You must provide a prefix" });
+            await ctx.respondPrivately({ with: "You must provide a prefix" });
             return;
         }
 
@@ -49,7 +49,7 @@ export class Prefix {
         }
 
         if (prefix.length > 10) {
-            await ctx.whisper({ content: "Prefixes cannot be longer than 10 characters" });
+            await ctx.respondPrivately({ with: "Prefixes cannot be longer than 10 characters" });
             return;
         }
 
@@ -58,14 +58,18 @@ export class Prefix {
         }
 
         // check user permissions
-        const member = ctx.bot.members.get(BigInt(`${ctx.guildId}${ctx.userId}`)) ?? (await ctx.bot.helpers.getMember(ctx.guildId, ctx.userId));
+        const member =
+            ctx.bot.members.get(BigInt(`${ctx.guildId}${ctx.userId}`)) ??
+            (await ctx.bot.helpers.getMember(ctx.guildId, ctx.userId));
 
         if (!member) {
             return;
         }
 
         if (!hasGuildPermissions(ctx.bot, ctx.guildId, member, ["MANAGE_GUILD"])) {
-            await ctx.whisper({ content: "You must have the `MANAGE_GUILD` permission to use this command" });
+            await ctx.respondPrivately({
+                with: "You must have the `MANAGE_GUILD` permission to use this command",
+            });
             return;
         }
 
@@ -83,6 +87,6 @@ export class Prefix {
             },
         });
 
-        await ctx.reply({ content: `Prefix set to \`${guild?.prefix}\`` });
+        await ctx.respond({ with: `Prefix set to \`${guild?.prefix}\`` });
     }
 }

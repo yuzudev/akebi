@@ -16,6 +16,6 @@ export class Ping {
 
     async run(ctx: Context) {
         const pingTimestamp = this.#getPingFromContext(ctx);
-        await ctx.respondWith(`Pong! (${Date.now() - pingTimestamp}ms)`);
+        await ctx.respond({ with: `Pong! (${Date.now() - pingTimestamp}ms)` });
     }
 }

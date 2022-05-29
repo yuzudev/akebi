@@ -20,7 +20,7 @@ export class Avatar {
     }
 
     async run(ctx: Context<BotWithCache>) {
-        const userId = ctx.getUser(0) ?? ctx.getUser("user") ?? ctx.userId;
+        const userId = ctx.options.getUser(0) ?? ctx.options.getUser("user") ?? ctx.userId;
 
         if (!userId) {
             return;
@@ -29,7 +29,7 @@ export class Avatar {
         const user = ctx.bot.users.get(userId) ?? (await ctx.bot.helpers.getUser(userId));
 
         if (!user) {
-            await ctx.respondWith("Unkown user");
+            await ctx.respond({ with: "Unkown user" });
             return;
         }
 
@@ -38,6 +38,6 @@ export class Avatar {
             avatar: user.avatar,
         });
 
-        await ctx.respondWith(avatar);
+        await ctx.respond({ with: avatar });
     }
 }

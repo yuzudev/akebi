@@ -1,77 +1,10 @@
 import type { ApplicationCommandOption, Bot } from "discordeno";
 import { ApplicationCommandTypes, upsertApplicationCommands } from "discordeno";
-import { commandAliases, commands, Context } from "oasis-framework";
+import { commands } from "oasis-framework";
 import { config } from "./config.js";
-import Prisma from "./database.js";
 
 export function enableMiddleware(bot: Bot) {
-    const { interactionCreate, messageCreate, ready } = bot.events;
-
-    bot.events.interactionCreate = async (bot, interaction) => {
-        if (interaction.user.toggles.bot) {
-            // if is bot forward the event
-            interactionCreate(bot, interaction);
-            return;
-        }
-
-        const guild = await Prisma.guild.findUnique({
-            where: {
-                id: interaction.guildId,
-            },
-        });
-
-        const ctx = new Context(guild?.prefix || config.prefix, bot, undefined, interaction);
-        const commandName = ctx.getCommandName();
-
-        if (!commandName) {
-            interactionCreate(bot, interaction);
-            return;
-        }
-
-        const [command] = commands.get(commandName) ?? [];
-
-        // check if command exists
-        if (command) {
-            command
-                .run(ctx) // do not await
-                .catch(_ => {});
-        }
-
-        interactionCreate(bot, interaction);
-    };
-
-    bot.events.messageCreate = async (bot, message) => {
-        if (message.isBot) {
-            // if is bot forward the event
-            messageCreate(bot, message);
-            return;
-        }
-        const guild = await Prisma.guild.findUnique({
-            where: {
-                id: message.guildId,
-            },
-        });
-
-        const ctx = new Context(guild?.prefix || config.prefix, bot, message, undefined);
-        const commandName = ctx.getCommandName();
-
-        if (!commandName) {
-            messageCreate(bot, message);
-            return;
-        }
-
-        // prettier-ignore
-        const [command] = commands.get(commandName) ?? commands.get(commandAliases.get(commandName) ?? "") ?? [];
-
-        // check if command exists
-        if (command) {
-            command
-                .run(ctx) // do not await
-                .catch(_ => {});
-        }
-
-        messageCreate(bot, message);
-    };
+    const { ready } = bot.events;
 
     bot.events.ready = async (bot, payload, rawPayload) => {
         if (config.development) {

@@ -33,7 +33,7 @@ export class EightBall {
 
     // run the command
     async run(ctx: Context) {
-        const question = ctx.getString(0) ?? ctx.getString("question");
+        const question = ctx.options.getString(0) ?? ctx.options.getString("question");
         const response = responses[Math.floor(Math.random() * responses.length)];
 
         if (!question) {
@@ -41,6 +41,6 @@ export class EightBall {
         }
 
         // send the message
-        await ctx.respondWith(`Question: ${question} | Reply: ${response}`);
+        await ctx.respond({ with: `Question: ${question} | Reply: ${response}` });
     }
 }

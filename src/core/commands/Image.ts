@@ -44,17 +44,17 @@ export class Image {
     async run(ctx: Context<BotWithCache>) {
         // phase one
 
-        const search = ctx.getString(0) ?? ctx.getString("query", true);
+        const search = ctx.options.getString(0) ?? ctx.options.getString("query", true);
 
         if (!search) {
-            await ctx.whisper({ content: "You must provide at least one search term" });
+            await ctx.respondPrivately({ with: "You must provide at least one search term" });
             return;
         }
 
         const token = await this.#getToken(search);
 
         if (!token) {
-            // await ctx.whisper({ content: 'No results found' });
+            // await ctx.respondPrivately({ with: 'No results found' });
             return;
         }
 
@@ -102,12 +102,12 @@ export class Image {
             .then(r => r.results as ImageResponse[]);
 
         if (images.length === 0) {
-            await ctx.whisper({ content: "No results found" });
+            await ctx.respondPrivately({ with: "No results found" });
             return;
         }
 
         // phase two
 
-        await ctx.respondWith(images[0]?.image ?? "No image found");
+        await ctx.respond({ with: images[0]?.image ?? "No image found" });
     }
 }

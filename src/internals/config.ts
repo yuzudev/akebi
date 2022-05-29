@@ -8,7 +8,6 @@ export interface Conf extends Record<string, unknown> {
         prefix: string;
         ownerId: string;
         token: string;
-        botId: string;
         supportGuildId: string;
         logsChannelId: string;
         intents: string[];

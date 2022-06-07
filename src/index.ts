@@ -2,14 +2,10 @@ import { BitwisePermissionFlags, GatewayIntents, type EventHandlers } from "disc
 import { enableCachePlugin } from "discordeno/cache-plugin";
 import { enableMiddleware } from "./internals/middleware.js";
 import { OasisClient } from "oasis-framework";
-import { enableCommandContext } from "oasis-framework/contrib";
+import { enableCommandContextWithCustomPrefix } from "oasis-framework/contrib";
 import { loadDirs } from "oasis-framework";
-
-// command handler
 import { config, handler } from "./internals/config.js";
-
-// side effects
-import "./internals/database.js";
+import Prisma from "./internals/database.js";
 
 if (handler) {
     const { rootDirectory, loadDirectories } = handler;
@@ -56,8 +52,18 @@ const client = new Client({
     },
 });
 
+const prefixFn = async (guildId: bigint  | undefined) => {
+    const currentGuild = await Prisma.guild.findUnique({
+        where: {
+            id: guildId,
+        },
+    });
+
+    return currentGuild?.prefix ?? config.prefix;
+};
+
 await client.start([
     enableMiddleware,
     enableCachePlugin,
-    (bot) => { enableCommandContext(config.prefix)(bot); return bot }
+    (bot) => { enableCommandContextWithCustomPrefix(prefixFn)(bot); return bot; }
 ]);

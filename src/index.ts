@@ -2,7 +2,7 @@ import { BitwisePermissionFlags, GatewayIntents, type EventHandlers } from "disc
 import { enableCachePlugin } from "discordeno/cache-plugin";
 import { enableMiddleware } from "./internals/middleware.js";
 import { OasisClient } from "oasis-framework";
-import { enableCommandContextWithCustomPrefix } from "oasis-framework/contrib";
+import { enableBiggerBrainCommandContext } from "oasis-framework/contrib";
 import { loadDirs } from "oasis-framework";
 import { config, handler } from "./internals/config.js";
 import Prisma from "./internals/database.js";
@@ -65,5 +65,5 @@ const prefixFn = async (guildId: bigint  | undefined) => {
 await client.start([
     enableMiddleware,
     enableCachePlugin,
-    (bot) => { enableCommandContextWithCustomPrefix(prefixFn)(bot); return bot; }
+    enableBiggerBrainCommandContext(prefixFn)
 ]);

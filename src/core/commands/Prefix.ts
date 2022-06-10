@@ -34,12 +34,12 @@ export class Prefix {
             },
         });
 
-        if (!prefix && currentGuild != null) {
+        if (!prefix && !!currentGuild) {
             await ctx.respond({ with: `The current prefix is \`${currentGuild.prefix}\`` });
             return;
         }
 
-        if (!prefix && currentGuild == null) {
+        if (!prefix && !currentGuild) {
             await ctx.respondPrivately({ with: "You must provide a prefix" });
             return;
         }

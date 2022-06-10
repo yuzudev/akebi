@@ -5,8 +5,6 @@
 		"module": "esnext",
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
-		"outDir": "./dist",
-		"rootDir": "./src",
 		"esModuleInterop": true,
 		"importHelpers": true,
 		"allowUnusedLabels": false,
@@ -19,7 +17,9 @@
 		"stripInternal": true,
 		"noFallthroughCasesInSwitch": true,
 		"useUnknownInCatchVariables": false,
-		"allowUnreachableCode": false
+		"allowUnreachableCode": false,
+		"outDir": "dist",
+		"rootDir": "src"
 	},
 	"include": ["./src/**/*"]
 }
